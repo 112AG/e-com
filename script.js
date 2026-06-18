@@ -4,7 +4,7 @@ let form = document.querySelector("form");
 let closeBtn = document.querySelector(".cut-form");
 let productDiv = document.querySelector('.products')
 
-const productArr = [];
+const productArr = JSON.parse(localStorage.getItem("products")) || [];
 let updateIndex = null;
 
 function ui () {
@@ -32,6 +32,9 @@ function ui () {
         `
     })
 }
+
+ui()
+
 createBtn.addEventListener("click", function () {
   formDiv.style.display = "flex";
 });
@@ -60,8 +63,11 @@ form.addEventListener("submit", function (event) {
   if (updateIndex !== null) {
     productArr[updateIndex] = obj;
     updateIndex = null;
+    localStorage.setItem('products',JSON.stringify(productArr))
+
   } else {
     productArr.push(obj);
+    localStorage.setItem('products',JSON.stringify(productArr))
   }
 
   console.log(productArr);
@@ -85,5 +91,6 @@ console.log(updateIndex);
 
 function deleteProduct(index) {
     productArr.splice(index, 1);
+    localStorage.setItem('products',JSON.stringify(productArr))
     ui();
 }
